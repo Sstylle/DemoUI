@@ -16,7 +16,7 @@ class getyaml:
         '''
         try:
             f = open(self.path,encoding='utf-8')
-            data =yaml.load(f)
+            data =yaml.load(f,Loader=yaml.FullLoader)
             f.close()
             return data
         except Exception as msg:

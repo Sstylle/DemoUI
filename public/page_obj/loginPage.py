@@ -11,6 +11,7 @@ from selenium.webdriver.common.by import By
 from public.page_obj.base import Page
 from time import sleep
 from public.models.GetYaml import getyaml
+from public.models.driver import browser
 
 testData = getyaml(setting.TEST_Element_YAML + '/' + 'login.yaml')
 
@@ -30,15 +31,15 @@ class login(Page):
 
     # 定位器，通过元素属性定位元素对象
     # 手机号输入框
-    login_phone_loc = (By.ID,testData.get_elementinfo(1))
+    login_phone_loc = (By.NAME,testData.get_elementinfo(1))
     # 密码输入框
-    login_password_loc = (By.ID,testData.get_elementinfo(2))
+    login_password_loc = (By.NAME,testData.get_elementinfo(2))
     # 取消自动登录
     keeplogin_button_loc = (By.XPATH,testData.get_elementinfo(3))
     # 单击登录
     login_user_loc = (By.XPATH,testData.get_elementinfo(4))
     # 退出登录
-    login_exit_loc = (By.ID, testData.get_elementinfo(5))
+    login_exit_loc = (By.CLASS_NAME, testData.get_elementinfo(5))
     # 选择退出
     login_exit_button_loc = (By.XPATH,testData.get_elementinfo(6))
 
@@ -94,13 +95,13 @@ class login(Page):
         self.login_phone(phone)
         self.login_password(password)
         sleep(1)
-        self.keeplogin()
-        sleep(1)
+        # self.keeplogin()
+        # sleep(1)
         self.login_button()
         sleep(1)
 
-    phone_pawd_error_hint_loc = (By.XPATH,testData.get_CheckElementinfo(0))
-    user_login_success_loc = (By.ID,testData.get_CheckElementinfo(1))
+    phone_pawd_error_hint_loc = (By.CSS_SELECTOR,testData.get_CheckElementinfo(0))
+    user_login_success_loc = (By.CSS_SELECTOR,testData.get_CheckElementinfo(1))
     exit_login_success_loc = (By.ID,testData.get_CheckElementinfo(2))
 
     # 手机号或密码错误提示
@@ -109,8 +110,23 @@ class login(Page):
 
     # 登录成功用户名
     def user_login_success_hint(self):
+        above = self.find_element(*self.login_exit_loc)
+        ActionChains(self.driver).move_to_element(above).perform()
         return self.find_element(*self.user_login_success_loc).text
 
     # 退出登录
     def exit_login_success_hint(self):
         return self.find_element(*self.exit_login_success_loc).text
+
+if __name__ == '__main__':
+    dr = browser()
+    dr.maximize_window()
+    a = login(dr)
+    a.user_login('13425457347','Qwe123')
+    above = a.find_element(*a.login_exit_loc)
+    ActionChains(a.driver).move_to_element(above).perform()
+    b = dr.find_element_by_css_selector('.avatar-con>span>a:nth-child(1)')
+    print(b)
+    print(b.text)
+    print(a.user_login_success_hint())
+    dr.quit()

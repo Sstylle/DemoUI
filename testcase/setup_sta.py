@@ -13,13 +13,13 @@ from public.page_obj.loginPage import login
 from public.models.log import Log
 
 f_login = open(setting.TEST_DATA_YAML + '/' + 'login_data.yaml',encoding='utf-8')
-LoginData = yaml.load(f_login)
+LoginData = yaml.load(f_login,Loader=yaml.FullLoader)
 ph = LoginData[5]['data']['phone']
 pwd = LoginData[5]['data']['password']
 
 try:
     f_setup =open(setting.TEST_DATA_YAML + '/' + 'setup_data.yaml',encoding='utf-8')
-    SetupData = yaml.load(f_setup)
+    SetupData = yaml.load(f_setup,Loader=yaml.FullLoader)
 except FileNotFoundError as file:
     log = Log()
     log.error("文件不存在：{0}".format(file))

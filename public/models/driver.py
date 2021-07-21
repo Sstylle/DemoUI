@@ -22,3 +22,6 @@ def browser():
         return driver
     except Exception as msg:
         print("驱动异常-> {0}".format(msg))
+
+if __name__ == '__main__':
+    browser()

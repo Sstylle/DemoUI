@@ -13,7 +13,7 @@ from public.models.log import Log
 
 try:
     f =open(setting.TEST_DATA_YAML + '/' + 'login_data.yaml',encoding='utf-8')
-    testData = yaml.load(f)
+    testData = yaml.load(f,Loader=yaml.FullLoader)
 except FileNotFoundError as file:
     log = Log()
     log.error("文件不存在：{0}".format(file))
