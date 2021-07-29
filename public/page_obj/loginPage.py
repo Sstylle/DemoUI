@@ -31,19 +31,19 @@ class login(Page):
 
     # 定位器，通过元素属性定位元素对象
     # 手机号输入框
-    login_phone_loc = (By.NAME,testData.get_elementinfo(1))
+    login_phone_loc = (By.NAME, testData.get_elementinfo(1))
     # 密码输入框
-    login_password_loc = (By.NAME,testData.get_elementinfo(2))
-    # 取消自动登录
-    keeplogin_button_loc = (By.XPATH,testData.get_elementinfo(3))
+    login_password_loc = (By.NAME, testData.get_elementinfo(2))
+    # 取消自动登录,没有了
+    keeplogin_button_loc = (By.XPATH, testData.get_elementinfo(3))
     # 单击登录
-    login_user_loc = (By.XPATH,testData.get_elementinfo(4))
+    login_user_loc = (By.XPATH, testData.get_elementinfo(4))
     # 退出登录
     login_exit_loc = (By.CLASS_NAME, testData.get_elementinfo(5))
     # 选择退出
-    login_exit_button_loc = (By.XPATH,testData.get_elementinfo(6))
+    login_exit_button_loc = (By.XPATH, testData.get_elementinfo(6))
 
-    def login_phone(self,phone):
+    def login_phone(self, phone):
         """
         登录手机号
         :param username:
@@ -51,7 +51,7 @@ class login(Page):
         """
         self.find_element(*self.login_phone_loc).send_keys(phone)
 
-    def login_password(self,password):
+    def login_password(self, password):
         """
         登录密码
         :param password:
@@ -83,7 +83,7 @@ class login(Page):
         sleep(2)
         self.find_element(*self.login_exit_button_loc).click()
 
-    def user_login(self,phone,password):
+    def user_login(self, phone, password):
         """
         登录入口
         :param username: 用户名
@@ -100,9 +100,9 @@ class login(Page):
         self.login_button()
         sleep(1)
 
-    phone_pawd_error_hint_loc = (By.CSS_SELECTOR,testData.get_CheckElementinfo(0))
-    user_login_success_loc = (By.CSS_SELECTOR,testData.get_CheckElementinfo(1))
-    exit_login_success_loc = (By.ID,testData.get_CheckElementinfo(2))
+    phone_pawd_error_hint_loc = (By.CSS_SELECTOR, testData.get_CheckElementinfo(0))
+    user_login_success_loc = (By.CSS_SELECTOR, testData.get_CheckElementinfo(1))
+    exit_login_success_loc = (By.ID, testData.get_CheckElementinfo(2))
 
     # 手机号或密码错误提示
     def phone_pawd_error_hint(self):
@@ -118,11 +118,12 @@ class login(Page):
     def exit_login_success_hint(self):
         return self.find_element(*self.exit_login_success_loc).text
 
+
 if __name__ == '__main__':
     dr = browser()
     dr.maximize_window()
     a = login(dr)
-    a.user_login('13425457347','Qwe123')
+    a.user_login('13425457347', 'Qwe123')
     above = a.find_element(*a.login_exit_loc)
     ActionChains(a.driver).move_to_element(above).perform()
     b = dr.find_element_by_css_selector('.avatar-con>span>a:nth-child(1)')
